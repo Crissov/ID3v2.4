@@ -1,0 +1,108 @@
+---
+Status: Informational
+Document: id3v2.4.0-changes.txt
+Author: M. Nilsson
+Date: 21st December 2000
+---
+
+ID3 tag version 2.4.0 - Changes
+===============================
+
+Status of this document
+-----------------------
+
+This document describes the changes between [ID3v2.3.0] and ID3v2.4.0 [structure][ID3v2.4.0-strct] and [frames][ID3v2.4.0-frames]. 
+This document does not claim to be complete nor correct. 
+
+Distribution of this document is unlimited.
+
+Abstract
+--------
+	This document outlines the more important differences between ID3v2.3.0 and ID3v2.4.0. 
+In general ID3v.2.4.0 can be said to be more consistent and easier to implement and more suitable to real world conditions than the previous versions.
+
+##	Table of contents
+
+* 	Status of this document
+* 	Abstract
+* 1.	Table of contents
+* 2.	Conventions in this document
+* 3.	Tag structure changes
+* 4.	Deprecated ID3v2 frames
+* 5.	New frames
+* 6.	References
+
+## Conventions in this document
+
+References to sections in the [ID3v2.4.0 Main Structure][ID3v2.4.0-strct] document 
+will be given as [S:x.y] where x is the section and y is the subsection. 
+In a similar fashion references to sections in the [ID3v2.4.0 Native Frames][ID3v2.4.0-frames] document 
+will be given as [F:x.y].
+
+## Tag structure changes
+
+The location of tags in a file as well as methods to find and merge tags are far better defined in ID3v2.4.0 [S:5] than previous versions. 
+A reverse search for tags are improved by the addition of a tag footer [S:3.4]. 
+A tag footer flag has been added to the header flags to indicate the presence of a ID3v2 footer, 
+hence the size field is not affected by the footer [S:3.1].
+
+The extended header has been completely rewritten [S:3.2] and can not produce false synchs. 
+It is also possible to indicate artificial tag restrictions in the extended header, for use with thinner clients.
+
+Unsynchronisation [S:6.1] is done on frame level, instead of on tag level, making it easier to skip frames, increasing the streamability of the tag. 
+The unsynchronisation flag in the header [S:3.1] indicates if all frames has been unsynchronized, 
+while the new unsynchronisation flag in the frame header [S:4.1.2] indicates unsynchronisation. 
+To avoid false synchronisations in the frame header the size description and flag field has been rewritten [S:4]. 
+Resynchronisation of the complete tag when the unsynchronisation flag in the tag header is set might result in a corrupt tag.
+
+The character encodings UTF-16BE and UTF-8 have been added to the list of valid encodings [S:4].
+
+## Deprecated ID3v2 frames
+
+* `IPLS` _Involved people list_:  
+	This frame is replaced by the two frames `TMCL`, 'Musician credits list' [F:4.2.2], and `TIPL`, 'Involved people list' [F:4.2.2].
+* `EQUA` _Equalization_:  
+	This frame is replaced by the `EQU2` frame, 'Equalisation (2)' [F:4.12].
+* `RVAD` _Relative volume adjustment
+	This frame is replaced by the `RVA2` frame, 'Relative volume adjustment (2)' [F:4.11].
+* `TDAT` _Date_:  
+	This frame is replaced by the `TDRC` frame, 'Recording time' [F:4.2.5].
+* `TIME` _Time_:  
+	This frame is replaced by the `TDRC` frame, 'Recording time' [F:4.2.5].
+* `TRDA` _Recording dates_:  
+	This frame is replaced by the `TDRC` frame, 'Recording time' [F:4.2.5].
+* `TYER` _Year_:  
+	This frame is replaced by the `TDRC` frame, 'Recording time' [F:4.2.5].
+* `TORY` _Original release year_:  
+	This frame is replaced by the `TDOR` frame, 'Original release time' [F:4.2.5].
+* `TSIZ` _Size_:  
+	The information contained in this frame is in the general case either trivial to calculate for the player or impossible for the tagger to calculate. 
+	There is however no good use for such information. 
+	The frame is therefore completely deprecated.
+
+## New frames
+
+* `ASPI`:	Audio seek point index [F:4.30]
+* `EQU2`:	Equalisation (2) [F:4.12]
+* `RVA2`:	Relative volume adjustment (2) [F:4.11]
+* `SEEK`:	Seek frame [F:4.29]
+* `SIGN`:	Signature frame [F:4.28]
+* `TDEN`:	Encoding time [F:4.2.5]
+* `TDOR`:	Original release time [F:4.2.5]
+* `TDRC`:	Recording time [F:4.2.5]
+* `TDRL`:	Release time [F:4.2.5]
+* `TDTG`:	Tagging time [F:4.2.5]
+* `TIPL`:	Involved people list [F:4.2.2]
+* `TMCL`:	Musician credits list [F:4.2.2]
+* `TMOO`:	Mood [F:4.2.3]
+* `TPRO`:	Produced notice [F:4.2.4]
+* `TSOA`:	Album sort order [F:4.2.5]
+* `TSOP`:	Performer sort order [F:4.2.5]
+* `TSOT`:	Title sort order [F:4.2.5]
+* `TSST`:	Set subtitle [F:4.2.1]
+
+## References
+
+  [ID3v2.3.0]: <http://www.id3.org/id3v2.3.0.txt> "Martin Nilsson: 'ID3v2 informal standard'"
+  [ID3v2-frames]: <http//www.id3.org/id3v2.4.0-frames.txt> "Martin Nilsson: 'ID3 tag version 2.4.0 - Native Frames'"
+  [ID3v2-strct]: <http//www.id3.org/id3v2.4.0-structure.txt> "Martin Nilsson, 'ID3 tag version 2.4.0 - Main Structure'"
